@@ -5,8 +5,27 @@ import {loadCart} from '../data/cart.js';
 //import '../data/cart-class.js';
 //import '../data/backend-practice.js';
 
-// multiple callbacks can cause nesting so use promises
+//async makes function return a promise. We use async for await
+//wait waits for a promise to finish before going to next line
+//can only use await when inside an async function
+async function loadPage() {
 
+    await loadProductsFetch(); //shortcut for promises.then format
+
+    await new Promise((resolve) => {
+        loadCart(() => {
+            resolve();
+        });
+    });
+
+    renderOrderSummary();
+    renderPaymentSummary();
+
+}
+loadPage();
+
+// multiple callbacks can cause nesting so use promises
+/*
 Promise.all([
     loadProductsFetch(),
     new Promise((resolve) => {
@@ -17,7 +36,7 @@ Promise.all([
 ]).then(() => {
     renderOrderSummary();
     renderPaymentSummary();
-});
+});*/
 
 /*
 new Promise((resolve) => {
